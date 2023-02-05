@@ -2,7 +2,7 @@
   "id": "pf2e-alignment-damage",
   "title": "PF2e Alignment Damage",
   "description": "Provides alternate behavior for alignment damage.",
-  "version": "TODO",
+  "version": "Populated by pipeline",
   "authors": [
     {
       "name": "Fin",
@@ -51,14 +51,14 @@
       "path": "languages/en.json"
     }
   ],
-  "url": "TODO",
-  "manifest": "This is replaced",
-  "download": "This is replaced",
-  "readme": "TODO",
-  "bugs": "TODO",
-  "changelog": "TODO",
+  "url": "https://github.com/Fin-bar/Pf2e-Alignment-Damage",
+  "manifest": "Populated by pipeline",
+  "download": "Populated by pipeline",
+  "readme": "https://github.com/Fin-bar/Pf2e-Alignment-Damage",
+  "bugs": "https://github.com/Fin-bar/Pf2e-Alignment-Damage/issues",
+  "changelog": "N/A",
   "esmodules": [
-    "module/settings.js",
-    "module/alignment-damage.js"
+    "scripts/settings.js",
+    "scripts/alignment-damage.js"
   ]
 }
