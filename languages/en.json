@@ -1,0 +1,10 @@
+{
+  "pf2e-alignment-damage": {
+    "settings": {
+      "ignoreAlignment": {
+        "name": "Ignore Creature Alignment",
+        "hint": "Allows aligned damage to affect creatures regardless of their alignment, i.e. an angel without specific immunity to Good damage will be susceptible to Good damage."
+      }
+    }
+  }
+}
