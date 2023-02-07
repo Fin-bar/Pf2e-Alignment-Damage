@@ -14,9 +14,6 @@ function modifyAlignmentImmunity(...args) {
 
     const alignments = ["good", "evil", "lawful", "chaotic"];
     const possiblyUnaffected = ["negative", "positive", "bleed"];
-    if (!game.settings.get("pf2e-alignment-damage", "ignoreAlignment")) {
-        possiblyUnaffected.push(...alignments);
-    }
 
     const damageType = (damage in CONFIG.PF2E.damageTypes)
         ? damage
@@ -24,19 +21,21 @@ function modifyAlignmentImmunity(...args) {
             ? damage.system.persistent?.damageType ?? null
             : null;
 
-    if (!possiblyUnaffected.includes(damageType)) return true;
+    const moduleSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
+    if (alignments.includes((damageType))) {
+        if (moduleSetting === "all") return true;
+        else if (moduleSetting === "none") return false;
+        else possiblyUnaffected.push(...alignments)
+    }
 
     const { traits } = this;
     let damageIsApplicable;
     damageIsApplicable = {
-        good: !traits.has("good"),
-        evil: !traits.has("evil"),
-        lawful: !traits.has("lawful"),
-        chaotic: !traits.has("chaotic"),
         positive: !!this.attributes.hp?.negativeHealing,
         negative: !(this.modeOfBeing === "construct" || this.attributes.hp?.negativeHealing),
         bleed: this.modeOfBeing === "living" || isReallyPC(this),
     };
+    addAlignmentFields(damageIsApplicable, moduleSetting, traits)
 
     return damageIsApplicable[damageType];
 }
@@ -48,4 +47,28 @@ function isReallyPC(actor) {
         [ANIMAL_COMPANION_SOURCE_ID, CONSTRUCT_COMPANION_SOURCE_ID].includes(classItemSourceID ?? "") ||
         actor.traits.has("eidolon")
     );
+}
+
+function addAlignmentFields(isApplicable, moduleSetting, traits) {
+    let alignmentIsApplicable;
+    if (moduleSetting === "default") {
+        alignmentIsApplicable = {
+            good: traits.has("evil"),
+            evil: traits.has("good"),
+            lawful: traits.has("chaotic"),
+            chaotic: traits.has("lawful")
+        };
+    }
+    else if (moduleSetting === "nonMatching") {
+        alignmentIsApplicable = {
+            good: !traits.has("good"),
+            evil: !traits.has("evil"),
+            lawful: !traits.has("lawful"),
+            chaotic: !traits.has("chaotic")
+        };
+    }
+    else {
+        alignmentIsApplicable = {};
+    }
+    Object.keys(alignmentIsApplicable).forEach(k => isApplicable[k] = alignmentIsApplicable[k])
 }
