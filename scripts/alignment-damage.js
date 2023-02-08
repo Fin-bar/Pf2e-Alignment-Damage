@@ -28,6 +28,8 @@ function modifyAlignmentImmunity(...args) {
         else possiblyUnaffected.push(...alignments)
     }
 
+    if (!possiblyUnaffected.includes((damageType))) return true;
+
     const { traits } = this;
     let damageIsApplicable;
     damageIsApplicable = {

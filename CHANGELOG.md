@@ -1,3 +1,9 @@
+# 1.1.1
+
+## Bugfixes
+* Fixed all conditions besides persistent damage being eaten by this module!
+* The previous patch notes are wrong; setting all alignment damage to be ignored will in fact apply to creatures with explicit aligned damage weaknesses.
+
 # 1.1.0
 
 ## Features
