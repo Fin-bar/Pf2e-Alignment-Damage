@@ -1,3 +1,8 @@
+# 1.2.0
+
+## Features
+* Added bleed damage immunity options and renamed the module to denote increased functionality.
+
 # 1.1.1
 
 ## Bugfixes

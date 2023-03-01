@@ -8,6 +8,14 @@
         "all": "All creatures",
         "none": "No creatures",
         "nonMatching": "Non-matching creatures"
+      },
+      "bleedConfig": {
+        "name": "Persistent Bleed Damage Susceptibility",
+        "hint": "Determines which types of creatures can be affected by persistent bleed damage.",
+        "default": "Default rules behavior",
+        "all": "All creatures",
+        "nonConstructs": "All creatures except constructs",
+        "nonUndead": "All creatures except undead"
       }
     }
   }

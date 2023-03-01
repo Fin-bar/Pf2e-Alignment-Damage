@@ -21,23 +21,24 @@ function modifyAlignmentImmunity(...args) {
             ? damage.system.persistent?.damageType ?? null
             : null;
 
-    const moduleSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
+    const alignmentSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
     if (alignments.includes((damageType))) {
-        if (moduleSetting === "all") return true;
-        else if (moduleSetting === "none") return false;
+        if (alignmentSetting === "all") return true;
+        else if (alignmentSetting === "none") return false;
         else possiblyUnaffected.push(...alignments)
     }
 
     if (!possiblyUnaffected.includes((damageType))) return true;
 
+    const bleedSetting = game.settings.get("pf2e-alignment-damage", "bleedConfig");
     const { traits } = this;
     let damageIsApplicable;
     damageIsApplicable = {
         positive: !!this.attributes.hp?.negativeHealing,
         negative: !(this.modeOfBeing === "construct" || this.attributes.hp?.negativeHealing),
-        bleed: this.modeOfBeing === "living" || isReallyPC(this),
+        bleed: bleedIsApplicable(bleedSetting, this.modeOfBeing) || isReallyPC(this),
     };
-    addAlignmentFields(damageIsApplicable, moduleSetting, traits)
+    addAlignmentFields(damageIsApplicable, alignmentSetting, traits)
 
     return damageIsApplicable[damageType];
 }
@@ -73,4 +74,14 @@ function addAlignmentFields(isApplicable, moduleSetting, traits) {
         alignmentIsApplicable = {};
     }
     Object.keys(alignmentIsApplicable).forEach(k => isApplicable[k] = alignmentIsApplicable[k])
+}
+
+function bleedIsApplicable(moduleSetting, modeOfBeing) {
+    if (moduleSetting === "default")
+        return modeOfBeing === "living";
+    else if (moduleSetting === "nonConstructs")
+        return modeOfBeing !== "construct";
+    else if (moduleSetting === "nonUndead")
+        return modeOfBeing !== "undead";
+    else return true;
 }

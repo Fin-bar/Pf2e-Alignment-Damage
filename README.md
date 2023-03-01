@@ -1,10 +1,5 @@
-# Pf2e-Alignment-Damage
-A module for changing the automated behavior of aligned damage, enabling it to apply to more creatures
-
+# PF2e Alignment Damage and Other Immunities
+A module for changing the automated behavior of alignment damage and other damage types with broad immunities
 # Features
 
-By default, allows aligned damage to affect all creatures lacking the corresponding trait,
-e.g. Evil damage will affect Neutral creatures in addition to Good creatures.
-
-Includes a toggle to allow aligned damage to affect *all* creatures without explicit immunity, 
-e.g. Evil damage will affect Devils.
+Allows alignment damage to apply to more (or less!) varieties of creatures. Also contains options to apply bleed damage to more types of creatures.

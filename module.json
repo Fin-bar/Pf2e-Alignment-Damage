@@ -1,6 +1,6 @@
 {
   "id": "pf2e-alignment-damage",
-  "title": "PF2e Alignment Damage",
+  "title": "PF2e Alignment Damage and Other Immunities",
   "description": "Provides alternate behavior for alignment damage.",
   "version": "Populated by pipeline",
   "authors": [
@@ -27,8 +27,8 @@
         "type": "system",
         "manifest": "https://github.com/foundryvtt/pf2e/releases/download/latest/system.json",
         "compatibility": {
-          "minimum": "3.0.0",
-          "verified": "4.6.8"
+          "minimum": "4.6.0",
+          "verified": "4.8.3"
         }
       }
     ],
