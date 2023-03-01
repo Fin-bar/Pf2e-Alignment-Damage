@@ -1,7 +1,7 @@
 {
   "id": "pf2e-alignment-damage",
   "title": "PF2e Alignment Damage and Other Immunities",
-  "description": "Provides alternate behavior for alignment damage.",
+  "description": "Provides alternate behavior for alignment damage and other damage types with broad immunities.",
   "version": "Populated by pipeline",
   "authors": [
     {
