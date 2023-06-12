@@ -1,3 +1,8 @@
+# 1.2.1
+
+## Features
+* Verified compatibility with Foundry v11/pf2e version 5.x
+
 # 1.2.0
 
 ## Features
