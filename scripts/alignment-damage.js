@@ -38,7 +38,7 @@ function modifyAlignmentImmunity(...args) {
     let damageIsApplicable;
     damageIsApplicable = {
         positive: positiveIsApplicable(positiveSetting, this.modeOfBeing, this.attributes.hp?.negativeHealing),
-        negative: negativeIsApplicable(positiveSetting, this.modeOfBeing, this.attributes.hp?.negativeHealing),
+        negative: negativeIsApplicable(negativeSetting, this.modeOfBeing, this.attributes.hp?.negativeHealing),
         bleed: bleedIsApplicable(bleedSetting, this.modeOfBeing) || isReallyPC(this),
     };
     addAlignmentFields(damageIsApplicable, alignmentSetting, traits)
