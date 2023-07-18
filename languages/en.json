@@ -16,6 +16,20 @@
         "all": "All creatures",
         "nonConstructs": "All creatures except constructs",
         "nonUndead": "All creatures except undead"
+      },
+      "positiveConfig": {
+        "name": "Positive Damage Susceptibility",
+        "hint": "Determines which types of creatures can be affected by positive damage.",
+        "default": "Default rules behavior",
+        "all": "All creatures",
+        "nonConstructs": "All creatures except constructs"
+      },
+      "negativeConfig": {
+        "name": "Negative Damage Susceptibility",
+        "hint": "Determines which types of creatures can be affected by negative damage.",
+        "default": "Default rules behavior",
+        "all": "All creatures",
+        "nonConstructs": "All creatures except constructs"
       }
     }
   }

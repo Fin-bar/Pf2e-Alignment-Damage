@@ -27,4 +27,30 @@ Hooks.once("init", () => {
             nonUndead: game.i18n.localize("pf2e-alignment-damage.settings.bleedConfig.nonUndead")
         }
     });
+    game.settings.register("pf2e-alignment-damage", "positiveConfig", {
+        scope: "world",
+        config: true,
+        name: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.name"),
+        hint: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.hint"),
+        type: String,
+        default: "default",
+        choices: {
+            all: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.all"),
+            default: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.default"),
+            nonConstructs: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.nonConstructs"),
+        }
+    });
+    game.settings.register("pf2e-alignment-damage", "negativeConfig", {
+        scope: "world",
+        config: true,
+        name: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.name"),
+        hint: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.hint"),
+        type: String,
+        default: "default",
+        choices: {
+            all: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.all"),
+            default: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.default"),
+            nonConstructs: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.nonConstructs"),
+        }
+    });
 });

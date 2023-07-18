@@ -1,3 +1,8 @@
+# 1.3.0
+
+## Features
+* Added positive and negative damage immunity options following similar rules to the existing bleed damage functionality.
+
 # 1.2.1
 
 ## Features
