@@ -53,4 +53,17 @@ Hooks.once("init", () => {
             nonConstructs: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.nonConstructs"),
         }
     });
+    game.settings.register("pf2e-alignment-damage", "precisionConfig", {
+        scope: "world",
+        config: true,
+        name: game.i18n.localize("pf2e-alignment-damage.settings.precisionConfig.name"),
+        hint: game.i18n.localize("pf2e-alignment-damage.settings.precisionConfig.hint"),
+        type: String,
+        default: "default",
+        choices: {
+            default: game.i18n.localize("pf2e-alignment-damage.settings.precisionConfig.default"),
+            replace: game.i18n.localize("pf2e-alignment-damage.settings.precisionConfig.replace"),
+            remove: game.i18n.localize("pf2e-alignment-damage.settings.precisionConfig.remove"),
+        }
+    });
 });

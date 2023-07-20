@@ -1,3 +1,8 @@
+# 1.4.0
+
+## Features
+* Added feature to remove precision immunity, and optionally replace it with level-based physical resistance.
+
 # 1.3.0
 
 ## Features

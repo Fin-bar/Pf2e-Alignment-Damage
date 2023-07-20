@@ -1,13 +1,76 @@
 const MODULE_ID = 'pf2e-alignment-damage';
 
-Hooks.on('init', () =>
-    libWrapper.register(
-        MODULE_ID,
-        'CONFIG.Actor.documentClass.prototype.isAffectedBy',
-        modifyAlignmentImmunity,
-        'OVERRIDE'
-    )
+const resistanceMap = new Map([[-1, 1], [0, 1], [1, 2], [2, 2], [3, 3], [4, 4], [5, 4], [6, 5], [7, 5], [8, 6], [9, 6], [10, 7], [11, 7], [12, 8],
+    [13, 8], [14, 9], [15, 9], [16, 9], [17, 10], [18, 10], [19, 11], [20, 11], [21, 12], [22, 12], [23, 13], [24, 13], [25, 14] //Level 25 resistance value: https://www.youtube.com/watch?v=3_lAb8m9MpI
+])
+
+const ephemeralEffect = {
+    _id: 'sixteencharacter',
+    name: 'Precision Immunity Replacement',
+    system: {
+        rules: [
+            {
+                key: "Immunity",
+                mode: "remove",
+                type:"precision",
+            },
+            {
+                key: "Resistance",
+                type: "bludgeoning",
+                value: "replace"
+            },
+            {
+                key: "Resistance",
+                type: "piercing",
+                value: "replace"
+            },
+            {
+                key: "Resistance",
+                type: "slashing",
+                value: "replace"
+            },
+            {
+                key: "Resistance",
+                type: "bleed",
+                value: "replace"
+            }
+        ]
+    },
+    type: 'effect'
+}
+
+Hooks.on('init', () => {
+        libWrapper.register(
+            MODULE_ID,
+            'CONFIG.Actor.documentClass.prototype.isAffectedBy',
+            modifyAlignmentImmunity,
+            'OVERRIDE'
+        )
+        libWrapper.register(
+            MODULE_ID,
+            'CONFIG.Actor.documentClass.prototype.getContextualClone',
+            modifyPrecisionImmunity,
+            'WRAPPER'
+        )
+    }
 )
+function modifyPrecisionImmunity(wrapped, rollOptions, ephemeralEffects) {
+    const precisionSetting = game.settings.get("pf2e-alignment-damage", "precisionConfig");
+    let isImmune = false;
+    this.attributes.immunities.forEach(immunity => {
+        if (immunity.type === "precision")
+            isImmune = true;
+    })
+    if (precisionSetting === "default" || !isImmune)
+        return wrapped(rollOptions, ephemeralEffects);
+    const level = this.level;
+    ephemeralEffect.system.rules.forEach(rule => {
+        if (rule.key === "Resistance")
+        rule.value = (precisionSetting === "remove") ? 0 : resistanceMap.get(level);
+    })
+    ephemeralEffects.push(ephemeralEffect);
+    return wrapped(rollOptions, ephemeralEffects);
+}
 
 function modifyAlignmentImmunity(...args) {
     let damage = args[0];
@@ -34,7 +97,7 @@ function modifyAlignmentImmunity(...args) {
     const positiveSetting = game.settings.get("pf2e-alignment-damage", "positiveConfig");
     const negativeSetting = game.settings.get("pf2e-alignment-damage", "negativeConfig");
 
-    const { traits } = this;
+    const {traits} = this;
     let damageIsApplicable;
     damageIsApplicable = {
         positive: positiveIsApplicable(positiveSetting, this.modeOfBeing, this.attributes.hp?.negativeHealing),
@@ -64,16 +127,14 @@ function addAlignmentFields(isApplicable, moduleSetting, traits) {
             lawful: traits.has("chaotic"),
             chaotic: traits.has("lawful")
         };
-    }
-    else if (moduleSetting === "nonMatching") {
+    } else if (moduleSetting === "nonMatching") {
         alignmentIsApplicable = {
             good: !traits.has("good"),
             evil: !traits.has("evil"),
             lawful: !traits.has("lawful"),
             chaotic: !traits.has("chaotic")
         };
-    }
-    else {
+    } else {
         alignmentIsApplicable = {};
     }
     Object.keys(alignmentIsApplicable).forEach(k => isApplicable[k] = alignmentIsApplicable[k])
@@ -96,6 +157,7 @@ function positiveIsApplicable(moduleSetting, modeOfBeing, negativeHealing) {
         return modeOfBeing !== "construct";
     else return true;
 }
+
 function negativeIsApplicable(moduleSetting, modeOfBeing, negativeHealing) {
     if (moduleSetting === "default")
         return !(modeOfBeing === "construct" || negativeHealing);

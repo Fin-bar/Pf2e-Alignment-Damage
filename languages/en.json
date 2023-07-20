@@ -30,6 +30,13 @@
         "default": "Default rules behavior",
         "all": "All creatures",
         "nonConstructs": "All creatures except constructs"
+      },
+      "precisionConfig": {
+        "name": "Precision Damage Immunity",
+        "hint": "Determines behavior of precision immunity. Physical resistance replacement uses low value of level-based resistances.",
+        "default": "Default rules behavior",
+        "replace": "Replace with physical resistance",
+        "remove": "Remove precision immunity entirely"
       }
     }
   }
