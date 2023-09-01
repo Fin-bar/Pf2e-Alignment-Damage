@@ -7,7 +7,8 @@
         "default": "Default rules behavior",
         "all": "All creatures",
         "none": "No creatures",
-        "nonMatching": "Non-matching creatures"
+        "nonMatching": "Non-matching creatures",
+        "applySpirit": "Apply all alignment damage as spirit damage"
       },
       "bleedConfig": {
         "name": "Persistent Bleed Damage Susceptibility",

@@ -4,6 +4,8 @@ const resistanceMap = new Map([[-1, 1], [0, 1], [1, 2], [2, 2], [3, 3], [4, 4], 
     [13, 8], [14, 9], [15, 9], [16, 9], [17, 10], [18, 10], [19, 11], [20, 11], [21, 12], [22, 12], [23, 13], [24, 13], [25, 14] //Level 25 resistance value: https://www.youtube.com/watch?v=3_lAb8m9MpI
 ])
 
+const alignments = ["good", "evil", "lawful", "chaotic"];
+
 const ephemeralEffect = {
     _id: 'sixteencharacter',
     name: 'Precision Immunity Replacement',
@@ -40,20 +42,45 @@ const ephemeralEffect = {
 }
 
 Hooks.on('init', () => {
-        libWrapper.register(
-            MODULE_ID,
-            'CONFIG.Actor.documentClass.prototype.isAffectedBy',
-            modifyAlignmentImmunity,
-            'OVERRIDE'
-        )
-        libWrapper.register(
-            MODULE_ID,
-            'CONFIG.Actor.documentClass.prototype.getContextualClone',
-            modifyPrecisionImmunity,
-            'WRAPPER'
-        )
-    }
+      libWrapper.register(
+        MODULE_ID,
+        'CONFIG.Actor.documentClass.prototype.isAffectedBy',
+        modifyAlignmentImmunity,
+        'OVERRIDE'
+      )
+      libWrapper.register(
+        MODULE_ID,
+        'CONFIG.Actor.documentClass.prototype.getContextualClone',
+        modifyPrecisionImmunity,
+        'WRAPPER'
+      )
+      libWrapper.register(
+        MODULE_ID,
+        'CONFIG.Actor.documentClass.prototype.applyDamage',
+        substituteDamage,
+        'WRAPPER'
+      )
+  }
 )
+
+function substituteDamage(wrapped, ...args) {
+    const substituteSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
+    if (substituteSetting !== "applySpirit")
+        return wrapped(...args);
+    let damage = args[0].damage.terms;
+    let finalTerms = [];
+    damage.forEach(term => {
+        let data = term.rolls[0].type;
+        alignments.forEach(alignment => {
+            if (data.includes(alignment))
+                term.rolls[0].type = data.replace(alignment, "spirit");
+        })
+        finalTerms.push(term);
+    })
+    args[0].damage.terms = finalTerms;
+    return wrapped(...args);
+}
+
 function modifyPrecisionImmunity(wrapped, rollOptions, ephemeralEffects) {
     const precisionSetting = game.settings.get("pf2e-alignment-damage", "precisionConfig");
     let isImmune = false;
@@ -66,7 +93,7 @@ function modifyPrecisionImmunity(wrapped, rollOptions, ephemeralEffects) {
     const level = this.level;
     ephemeralEffect.system.rules.forEach(rule => {
         if (rule.key === "Resistance")
-        rule.value = (precisionSetting === "remove") ? 0 : resistanceMap.get(level);
+            rule.value = (precisionSetting === "remove") ? 0 : resistanceMap.get(level);
     })
     ephemeralEffects.push(ephemeralEffect);
     return wrapped(rollOptions, ephemeralEffects);
@@ -75,14 +102,13 @@ function modifyPrecisionImmunity(wrapped, rollOptions, ephemeralEffects) {
 function modifyAlignmentImmunity(...args) {
     let damage = args[0];
 
-    const alignments = ["good", "evil", "lawful", "chaotic"];
     const possiblyUnaffected = ["negative", "positive", "bleed"];
 
     const damageType = (damage in CONFIG.PF2E.damageTypes)
-        ? damage
-        : damage.isOfType("condition")
-            ? damage.system.persistent?.damageType ?? null
-            : null;
+      ? damage
+      : damage.isOfType("condition")
+        ? damage.system.persistent?.damageType ?? null
+        : null;
 
     const alignmentSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
     if (alignments.includes((damageType))) {
@@ -113,8 +139,8 @@ function isReallyPC(actor) {
     if (!actor.isOfType("character")) return false;
     const classItemSourceID = this.class?.sourceId;
     return !(
-        [ANIMAL_COMPANION_SOURCE_ID, CONSTRUCT_COMPANION_SOURCE_ID].includes(classItemSourceID ?? "") ||
-        actor.traits.has("eidolon")
+      [ANIMAL_COMPANION_SOURCE_ID, CONSTRUCT_COMPANION_SOURCE_ID].includes(classItemSourceID ?? "") ||
+      actor.traits.has("eidolon")
     );
 }
 

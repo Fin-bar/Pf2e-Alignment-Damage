@@ -1,3 +1,8 @@
+# 1.5.0
+
+## Features
+* Added option to apply all alignment damage as recently-introduced spirit damage
+
 # 1.4.0
 
 ## Features
