@@ -1,3 +1,8 @@
+# 1.5.2
+
+## Bugfixes
+* Fixed annoying but ultimately harmless errors thrown by _every single roll message_ depending on settings
+
 # 1.5.1
 
 ## Features
