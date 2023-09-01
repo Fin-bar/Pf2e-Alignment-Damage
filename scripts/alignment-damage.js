@@ -67,7 +67,7 @@ Hooks.on('init', () => {
 Hooks.on("preCreateChatMessage", (message) => {
     const replaceSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
     if (replaceSetting !== "replace" || !message.isRoll)
-        return wrapped(...args);
+        return;
     // This is some aggressive jank
     let rolls = JSON.stringify(message.rolls);
     alignments.forEach(alignment => rolls = rolls.replaceAll(alignment, "spirit"));
