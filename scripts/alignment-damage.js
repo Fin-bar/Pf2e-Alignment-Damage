@@ -5,6 +5,7 @@ const resistanceMap = new Map([[-1, 1], [0, 1], [1, 2], [2, 2], [3, 3], [4, 4], 
 ])
 
 const alignments = ["good", "evil", "lawful", "chaotic"];
+const uppercaseAlignments = ["Good", "Evil", "Lawful", "Chaotic"];
 
 const ephemeralEffect = {
     _id: 'sixteencharacter',
@@ -62,6 +63,21 @@ Hooks.on('init', () => {
       )
   }
 )
+
+Hooks.on("preCreateChatMessage", (message) => {
+    const replaceSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
+    if (replaceSetting !== "replace" || !message.isRoll)
+        return wrapped(...args);
+    // This is some aggressive jank
+    let rolls = JSON.stringify(message.rolls);
+    alignments.forEach(alignment => rolls = rolls.replaceAll(alignment, "spirit"));
+    uppercaseAlignments.forEach(alignment => rolls = rolls.replaceAll(alignment, "Spirit"));
+    let flavor = message.flavor;
+    alignments.forEach(alignment => flavor = flavor.replaceAll(alignment, "spirit"));
+    uppercaseAlignments.forEach(alignment => flavor = flavor.replaceAll(alignment, "Spirit"));
+    message.updateSource({ rolls: JSON.parse(rolls), flavor: flavor })
+    console.log(JSON.stringify(message))
+})
 
 function substituteDamage(wrapped, ...args) {
     const substituteSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
@@ -146,13 +162,8 @@ function isReallyPC(actor) {
 
 function addAlignmentFields(isApplicable, moduleSetting, traits) {
     let alignmentIsApplicable;
-    if (moduleSetting === "default") {
-        alignmentIsApplicable = {
-            good: traits.has("evil"),
-            evil: traits.has("good"),
-            lawful: traits.has("chaotic"),
-            chaotic: traits.has("lawful")
-        };
+    if (moduleSetting === "none") {
+        alignmentIsApplicable = {};
     } else if (moduleSetting === "nonMatching") {
         alignmentIsApplicable = {
             good: !traits.has("good"),
@@ -161,7 +172,12 @@ function addAlignmentFields(isApplicable, moduleSetting, traits) {
             chaotic: !traits.has("chaotic")
         };
     } else {
-        alignmentIsApplicable = {};
+        alignmentIsApplicable = {
+            good: traits.has("evil"),
+            evil: traits.has("good"),
+            lawful: traits.has("chaotic"),
+            chaotic: traits.has("lawful")
+        };
     }
     Object.keys(alignmentIsApplicable).forEach(k => isApplicable[k] = alignmentIsApplicable[k])
 }

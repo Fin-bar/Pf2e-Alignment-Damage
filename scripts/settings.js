@@ -1,6 +1,7 @@
 Hooks.once("init", () => {
     game.settings.register("pf2e-alignment-damage", "alignmentConfig", {
         scope: "world",
+        requiresReload: true,
         config: true,
         name: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.name"),
         hint: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.hint"),
@@ -11,11 +12,13 @@ Hooks.once("init", () => {
             nonMatching: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.nonMatching"),
             default: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.default"),
             none: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.none"),
-            applySpirit: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.applySpirit")
+            applySpirit: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.applySpirit"),
+            replace: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.replace"),
         }
     });
     game.settings.register("pf2e-alignment-damage", "bleedConfig", {
         scope: "world",
+        requiresReload: true,
         config: true,
         name: game.i18n.localize("pf2e-alignment-damage.settings.bleedConfig.name"),
         hint: game.i18n.localize("pf2e-alignment-damage.settings.bleedConfig.hint"),
@@ -30,6 +33,7 @@ Hooks.once("init", () => {
     });
     game.settings.register("pf2e-alignment-damage", "positiveConfig", {
         scope: "world",
+        requiresReload: true,
         config: true,
         name: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.name"),
         hint: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.hint"),
@@ -43,6 +47,7 @@ Hooks.once("init", () => {
     });
     game.settings.register("pf2e-alignment-damage", "negativeConfig", {
         scope: "world",
+        requiresReload: true,
         config: true,
         name: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.name"),
         hint: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.hint"),
@@ -56,6 +61,7 @@ Hooks.once("init", () => {
     });
     game.settings.register("pf2e-alignment-damage", "precisionConfig", {
         scope: "world",
+        requiresReload: true,
         config: true,
         name: game.i18n.localize("pf2e-alignment-damage.settings.precisionConfig.name"),
         hint: game.i18n.localize("pf2e-alignment-damage.settings.precisionConfig.hint"),

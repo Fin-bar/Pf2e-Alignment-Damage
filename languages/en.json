@@ -8,7 +8,8 @@
         "all": "All creatures",
         "none": "No creatures",
         "nonMatching": "Non-matching creatures",
-        "applySpirit": "Apply all alignment damage as spirit damage"
+        "applySpirit": "Apply all alignment damage as spirit damage",
+        "replace": "Replace with spirit damage on roll"
       },
       "bleedConfig": {
         "name": "Persistent Bleed Damage Susceptibility",

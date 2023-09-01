@@ -1,3 +1,8 @@
+# 1.5.1
+
+## Features
+* Added option to replace all alignment damage with spirit damage at time of roll
+
 # 1.5.0
 
 ## Features
