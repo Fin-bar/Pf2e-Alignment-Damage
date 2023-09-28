@@ -1,3 +1,8 @@
+# 1.5.3
+
+## Bugfixes
+* Fixed applying healing from damage cards being broken when applying alignment damage as spirit damage.
+
 # 1.5.2
 
 ## Bugfixes

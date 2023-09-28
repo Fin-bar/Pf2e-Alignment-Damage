@@ -83,9 +83,14 @@ function substituteDamage(wrapped, ...args) {
     const substituteSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
     if (substituteSetting !== "applySpirit")
         return wrapped(...args);
-    let damage = args[0].damage.terms;
+    let damage = args[0].damage;
+    //probably just healing
+    if (typeof damage === "number")
+        return wrapped(...args);
+
+    let terms = damage.terms;
     let finalTerms = [];
-    damage.forEach(term => {
+    terms.forEach(term => {
         let data = term.rolls[0].type;
         alignments.forEach(alignment => {
             if (data.includes(alignment))
