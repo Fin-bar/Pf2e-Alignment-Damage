@@ -1,3 +1,8 @@
+# 1.5.4
+
+## Features/Bugfixes
+* Vitality (formerly positive) and Void (formerly negative) damage behavior has been updated to post-Remaster terminology.
+
 # 1.5.3
 
 ## Bugfixes

@@ -31,32 +31,32 @@ Hooks.once("init", () => {
             nonUndead: game.i18n.localize("pf2e-alignment-damage.settings.bleedConfig.nonUndead")
         }
     });
-    game.settings.register("pf2e-alignment-damage", "positiveConfig", {
+    game.settings.register("pf2e-alignment-damage", "vitalityConfig", {
         scope: "world",
         requiresReload: true,
         config: true,
-        name: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.name"),
-        hint: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.hint"),
+        name: game.i18n.localize("pf2e-alignment-damage.settings.vitalityConfig.name"),
+        hint: game.i18n.localize("pf2e-alignment-damage.settings.vitalityConfig.hint"),
         type: String,
         default: "default",
         choices: {
-            all: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.all"),
-            default: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.default"),
-            nonConstructs: game.i18n.localize("pf2e-alignment-damage.settings.positiveConfig.nonConstructs"),
+            all: game.i18n.localize("pf2e-alignment-damage.settings.vitalityConfig.all"),
+            default: game.i18n.localize("pf2e-alignment-damage.settings.vitalityConfig.default"),
+            nonConstructs: game.i18n.localize("pf2e-alignment-damage.settings.vitalityConfig.nonConstructs"),
         }
     });
-    game.settings.register("pf2e-alignment-damage", "negativeConfig", {
+    game.settings.register("pf2e-alignment-damage", "voidConfig", {
         scope: "world",
         requiresReload: true,
         config: true,
-        name: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.name"),
-        hint: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.hint"),
+        name: game.i18n.localize("pf2e-alignment-damage.settings.voidConfig.name"),
+        hint: game.i18n.localize("pf2e-alignment-damage.settings.voidConfig.hint"),
         type: String,
         default: "default",
         choices: {
-            all: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.all"),
-            default: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.default"),
-            nonConstructs: game.i18n.localize("pf2e-alignment-damage.settings.negativeConfig.nonConstructs"),
+            all: game.i18n.localize("pf2e-alignment-damage.settings.voidConfig.all"),
+            default: game.i18n.localize("pf2e-alignment-damage.settings.voidConfig.default"),
+            nonConstructs: game.i18n.localize("pf2e-alignment-damage.settings.voidConfig.nonConstructs"),
         }
     });
     game.settings.register("pf2e-alignment-damage", "precisionConfig", {

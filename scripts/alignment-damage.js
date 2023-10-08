@@ -123,7 +123,7 @@ function modifyPrecisionImmunity(wrapped, rollOptions, ephemeralEffects) {
 function modifyAlignmentImmunity(...args) {
     let damage = args[0];
 
-    const possiblyUnaffected = ["negative", "positive", "bleed"];
+    const possiblyUnaffected = ["void", "vitality", "bleed"];
 
     const damageType = (damage in CONFIG.PF2E.damageTypes)
       ? damage
@@ -141,14 +141,14 @@ function modifyAlignmentImmunity(...args) {
     if (!possiblyUnaffected.includes((damageType))) return true;
 
     const bleedSetting = game.settings.get("pf2e-alignment-damage", "bleedConfig");
-    const positiveSetting = game.settings.get("pf2e-alignment-damage", "positiveConfig");
-    const negativeSetting = game.settings.get("pf2e-alignment-damage", "negativeConfig");
+    const vitalitySetting = game.settings.get("pf2e-alignment-damage", "vitalityConfig");
+    const voidSetting = game.settings.get("pf2e-alignment-damage", "voidConfig");
 
     const {traits} = this;
     let damageIsApplicable;
     damageIsApplicable = {
-        positive: positiveIsApplicable(positiveSetting, this.modeOfBeing, this.attributes.hp?.negativeHealing),
-        negative: negativeIsApplicable(negativeSetting, this.modeOfBeing, this.attributes.hp?.negativeHealing),
+        vitality: vitalityIsApplicable(vitalitySetting, this.modeOfBeing, this.attributes.hp?.negativeHealing),
+        void: voidIsApplicable(voidSetting, this.modeOfBeing, this.attributes.hp?.negativeHealing),
         bleed: bleedIsApplicable(bleedSetting, this.modeOfBeing) || isReallyPC(this),
     };
     addAlignmentFields(damageIsApplicable, alignmentSetting, traits)
@@ -197,7 +197,7 @@ function bleedIsApplicable(moduleSetting, modeOfBeing) {
     else return true;
 }
 
-function positiveIsApplicable(moduleSetting, modeOfBeing, negativeHealing) {
+function vitalityIsApplicable(moduleSetting, modeOfBeing, negativeHealing) {
     if (moduleSetting === "default")
         return !!negativeHealing;
     else if (moduleSetting === "nonConstructs")
@@ -205,7 +205,7 @@ function positiveIsApplicable(moduleSetting, modeOfBeing, negativeHealing) {
     else return true;
 }
 
-function negativeIsApplicable(moduleSetting, modeOfBeing, negativeHealing) {
+function voidIsApplicable(moduleSetting, modeOfBeing, negativeHealing) {
     if (moduleSetting === "default")
         return !(modeOfBeing === "construct" || negativeHealing);
     else if (moduleSetting === "nonConstructs")
