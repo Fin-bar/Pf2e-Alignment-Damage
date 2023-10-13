@@ -1,3 +1,11 @@
+# 1.6.0
+
+## Features
+* Added option to replace immunity to alignment damage with level-based resistance.
+
+## Bugfixes
+* Clone custom effect object instead of mutating a single object.
+
 # 1.5.4
 
 ## Features/Bugfixes

@@ -7,7 +7,7 @@ const resistanceMap = new Map([[-1, 1], [0, 1], [1, 2], [2, 2], [3, 3], [4, 4], 
 const alignments = ["good", "evil", "lawful", "chaotic"];
 const uppercaseAlignments = ["Good", "Evil", "Lawful", "Chaotic"];
 
-const ephemeralEffect = {
+const precisionEphemeralEffect = {
     _id: 'sixteencharacter',
     name: 'Precision Immunity Replacement',
     system: {
@@ -42,6 +42,36 @@ const ephemeralEffect = {
     type: 'effect'
 }
 
+const alignmentEphemeralEffect = {
+    _id: 'sixteencharacter',
+    name: 'Alignment Damage Immunity Replacement',
+    system: {
+        rules: [
+            {
+                key: "Resistance",
+                type: "good",
+                value: "replace"
+            },
+            {
+                key: "Resistance",
+                type: "evil",
+                value: "replace"
+            },
+            {
+                key: "Resistance",
+                type: "lawful",
+                value: "replace"
+            },
+            {
+                key: "Resistance",
+                type: "chaotic",
+                value: "replace"
+            }
+        ]
+    },
+    type: 'effect'
+}
+
 Hooks.on('init', () => {
       libWrapper.register(
         MODULE_ID,
@@ -52,7 +82,7 @@ Hooks.on('init', () => {
       libWrapper.register(
         MODULE_ID,
         'CONFIG.Actor.documentClass.prototype.getContextualClone',
-        modifyPrecisionImmunity,
+        getContextualCloneWrapper,
         'WRAPPER'
       )
       libWrapper.register(
@@ -102,22 +132,76 @@ function substituteDamage(wrapped, ...args) {
     return wrapped(...args);
 }
 
-function modifyPrecisionImmunity(wrapped, rollOptions, ephemeralEffects) {
+function getContextualCloneWrapper(wrapped, rollOptions, ephemeralEffects) {
+    let effects = modifyPrecisionImmunity(this, rollOptions, ephemeralEffects);
+    effects = addAlignmentResistance(this, rollOptions, ephemeralEffects);
+    return wrapped(rollOptions, effects);
+}
+
+function modifyPrecisionImmunity(actor, rollOptions, ephemeralEffects) {
     const precisionSetting = game.settings.get("pf2e-alignment-damage", "precisionConfig");
     let isImmune = false;
-    this.attributes.immunities.forEach(immunity => {
+    actor.attributes.immunities.forEach(immunity => {
         if (immunity.type === "precision")
             isImmune = true;
     })
     if (precisionSetting === "default" || !isImmune)
-        return wrapped(rollOptions, ephemeralEffects);
-    const level = this.level;
-    ephemeralEffect.system.rules.forEach(rule => {
+        return ephemeralEffects;
+
+    let level = actor.level;
+    let effect = structuredClone(precisionEphemeralEffect);
+    effect.system.rules.forEach(rule => {
         if (rule.key === "Resistance")
             rule.value = (precisionSetting === "remove") ? 0 : resistanceMap.get(level);
     })
-    ephemeralEffects.push(ephemeralEffect);
-    return wrapped(rollOptions, ephemeralEffects);
+    ephemeralEffects.push(effect);
+    return ephemeralEffects;
+}
+
+function addAlignmentResistance(actor, rollOptions, ephemeralEffects) {
+    const alignmentSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
+    if (alignmentSetting !== "matchingResists" && alignmentSetting !== "othersResist")
+        return ephemeralEffects;
+
+    let alignmentTraits = alignments.filter(alignment => actor.traits.has(alignment));
+    let resist = resistanceMap.get(actor.level);
+    let othersResist = alignmentSetting === "othersResist";
+    let effect = structuredClone(alignmentEphemeralEffect);
+    effect.system.rules.forEach(rule => {
+        switch(rule.type) {
+            case "good":
+                if (alignmentTraits.includes("good"))
+                    rule.value = resist;
+                else if (othersResist && !alignmentTraits.includes("evil"))
+                    rule.value = resist;
+                else rule.value = 0;
+                break;
+            case "evil":
+                if (alignmentTraits.includes("evil"))
+                    rule.value = resist;
+                else if (othersResist && !alignmentTraits.includes("good"))
+                    rule.value = resist;
+                else rule.value = 0;
+                break;
+            case "lawful":
+                if (alignmentTraits.includes("lawful"))
+                    rule.value = resist;
+                else if (othersResist && !alignmentTraits.includes("chaotic"))
+                    rule.value = resist;
+                else rule.value = 0;
+                break;
+            case "chaotic":
+                if (alignmentTraits.includes("chaotic"))
+                    rule.value = resist;
+                else if (othersResist && !alignmentTraits.includes("lawful"))
+                    rule.value = resist;
+                else rule.value = 0;
+                break;
+
+        }
+    })
+    ephemeralEffects.push(effect);
+    return ephemeralEffects;
 }
 
 function modifyAlignmentImmunity(...args) {
@@ -133,7 +217,7 @@ function modifyAlignmentImmunity(...args) {
 
     const alignmentSetting = game.settings.get("pf2e-alignment-damage", "alignmentConfig");
     if (alignments.includes((damageType))) {
-        if (alignmentSetting === "all") return true;
+        if (alignmentSetting === "all" || alignmentSetting === "matchingResists" || alignmentSetting === "othersResist") return true;
         else if (alignmentSetting === "none") return false;
         else possiblyUnaffected.push(...alignments)
     }

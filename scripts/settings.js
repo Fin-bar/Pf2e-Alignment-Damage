@@ -12,6 +12,8 @@ Hooks.once("init", () => {
             nonMatching: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.nonMatching"),
             default: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.default"),
             none: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.none"),
+            matchingResists: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.matchingResists"),
+            othersResist: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.othersResist"),
             applySpirit: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.applySpirit"),
             replace: game.i18n.localize("pf2e-alignment-damage.settings.alignmentConfig.replace"),
         }
