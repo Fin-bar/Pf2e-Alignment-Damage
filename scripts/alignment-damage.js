@@ -43,7 +43,7 @@ const precisionEphemeralEffect = {
 }
 
 const alignmentEphemeralEffect = {
-    _id: 'sixteencharacter',
+    _id: 'alignmentresists',
     name: 'Alignment Damage Immunity Replacement',
     system: {
         rules: [
@@ -134,7 +134,7 @@ function substituteDamage(wrapped, ...args) {
 
 function getContextualCloneWrapper(wrapped, rollOptions, ephemeralEffects) {
     let effects = modifyPrecisionImmunity(this, rollOptions, ephemeralEffects);
-    effects = addAlignmentResistance(this, rollOptions, ephemeralEffects);
+    effects = addAlignmentResistance(this, rollOptions, effects);
     return wrapped(rollOptions, effects);
 }
 
