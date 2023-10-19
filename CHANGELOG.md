@@ -1,3 +1,8 @@
+# 1.6.1
+
+## Bugfixes
+* Fixed some issues related to using two "replace damage immunity with resistance" effects at the same time.
+
 # 1.6.0
 
 ## Features
