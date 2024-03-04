@@ -241,12 +241,8 @@ function modifyAlignmentImmunity(...args) {
 }
 
 function isReallyPC(actor) {
-    if (!actor.isOfType("character")) return false;
-    const classItemSourceID = this.class?.sourceId;
-    return !(
-      [ANIMAL_COMPANION_SOURCE_ID, CONSTRUCT_COMPANION_SOURCE_ID].includes(classItemSourceID ?? "") ||
-      actor.traits.has("eidolon")
-    );
+    const traits = actor.traits;
+    return actor.isOfType("character") && !(traits.has("minion") || traits.has("eidolon"));
 }
 
 function addAlignmentFields(isApplicable, moduleSetting, traits) {
