@@ -1,0 +1,47 @@
+{
+  "pf2e-alignment-damage": {
+    "settings": {
+      "alignmentConfig": {
+        "name": "Podatność na obrażenia od charakteru",
+        "hint": "Określa, na które typy stworzeń mogą wpływać obrażenia związane z charakterem. „Niepasujące” odnosi się do istot nieposiadających odpowiedniej cechy, np. neutralna istota otrzyma obrażenia od Dobra, ale istota z Dobrym charakterem nie.",
+        "default": "Domyślne zachowanie reguł",
+        "all": "Wszystkie stworzenia",
+        "none": "Żadne stworzenia",
+        "matchingResists": "Wszystkie stworzenia, ale pasujący charakter ma odporność zależną od poziomu",
+        "othersResist": "Wszystkie stworzenia, ale przeciwny charakter ma odporność zależną od poziomu",
+        "nonMatching": "Niepasujące stworzenia",
+        "applySpirit": "Zastosuj wszystkie obrażenia od charakteru jako obrażenia duchowe",
+        "replace": "Zastąp obrażenia duchowymi na rzucie"
+      },
+      "bleedConfig": {
+        "name": "Podatność na trwałe obrażenia od krwawienia",
+        "hint": "Określa, które typy stworzeń mogą być dotknięte obrażeniami od trwałego krwawienia.",
+        "default": "Domyślne zachowanie reguł",
+        "all": "Wszystkie stworzenia",
+        "nonConstructs": "Wszystkie stworzenia oprócz konstruktów",
+        "nonUndead": "Wszystkie stworzenia oprócz nieumarłych"
+      },
+      "vitalityConfig": {
+        "name": "Podatność na obrażenia od witalności",
+        "hint": "Określa, na które typy stworzeń mogą wpływać obrażenia witalne.",
+        "default": "Domyślne zachowanie reguł",
+        "all": "Wszystkie stworzenia",
+        "nonConstructs": "Wszystkie stworzenia oprócz konstruktów"
+      },
+      "voidConfig": {
+        "name": "Podatność na obrażenia od pustki",
+        "hint": "Określa, które typy stworzeń mogą zostać dotknięte obrażeniami od pustki.",
+        "default": "Domyślne zachowanie reguł",
+        "all": "Wszystkie stworzenia",
+        "nonConstructs": "Wszystkie stworzenia oprócz konstruktów"
+      },
+      "precisionConfig": {
+        "name": "Niewrażliwość na obrażenia precyzyjne",
+        "hint": "Określa zachowanie niewrażliwości na precyzyjne obrażenia. Zastąpienie odporności fizycznej wykorzystuje niską wartość odporności opartej na poziomie.",
+        "default": "Domyślne zachowanie reguł",
+        "replace": "Zastąpić fizyczną odpornością",
+        "remove": "Całkowite usunięcie niewrażliwości na obrażenia precyzyjne"
+      }
+    }
+  }
+}
